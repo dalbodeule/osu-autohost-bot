@@ -5,7 +5,7 @@ class Logger {
   private process: string
 
   constructor(processName = 'Main') {
-    this.logger = log4js.getLogger()
+    this.logger = log4js.getLogger(processName)
     this.process = processName
 
     if (process.env.NODE_ENV == "production") {
@@ -16,19 +16,19 @@ class Logger {
   }
 
   public info(message: string): void {
-    this.logger.info(`${this.process}: ${message}`)
+    this.logger.info(message)
   }
 
   public debug(message: string): void {
-    this.logger.debug(`${this.process}: ${message}`)
+    this.logger.debug(message)
   }
 
   public warn(message:string): void {
-    this.logger.warn(`${this.process}: ${message}`)
+    this.logger.warn(message)
   }
 
   public fatal(message:string): void {
-    this.logger.fatal(`${this.process}: ${message}`)
+    this.logger.fatal(message)
   }
 }
 
