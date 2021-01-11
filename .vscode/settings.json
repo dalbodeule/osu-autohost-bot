@@ -1,0 +1,19 @@
+{
+    "editor.formatOnSave": true,
+    "javascript.format.semicolons": "remove",
+    "[typescript]": {
+        "editor.formatOnSave": true,
+        "editor.formatOnPaste": true,
+        "editor.tabSize": 2
+    },
+    "[json]": {
+        "editor.quickSuggestions": {
+            "strings": true
+        },
+        "editor.suggest.insertMode": "replace",
+        "editor.tabSize": 2
+    },
+    "[env]": {
+        "editor.tabSize": 2
+    }
+}
