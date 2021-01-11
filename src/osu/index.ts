@@ -38,10 +38,6 @@ const logger = new Logger('OSU')
           )
       }
     })
-
-    setInterval(() => {
-      logger.debug(`client is connected: ${client.isConnected()}`)
-    }, 10000)
   } catch (error) {
     logger.warn('error!')
     logger.debug(error)

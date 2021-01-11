@@ -11,6 +11,7 @@ interface IConfig {
   readonly discord: {
     readonly apiKey: string
     readonly guildId: number
+    readonly commandId: string
   }
   readonly commandPrefix: string
 }
@@ -36,6 +37,7 @@ const Config: IConfig = {
   discord: {
     apiKey: process.env.DISCORD_APIKEY || '',
     guildId: parseInt(process.env.DISCORD_GUILDID || '0'),
+    commandId: process.env.DISCORD_COMMAND_ID || '',
   },
   commandPrefix: '!',
 }
