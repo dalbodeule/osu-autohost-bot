@@ -35,6 +35,7 @@
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "log4js": "^6.3.0",
+    "nodesu": "^0.7.2",
     "utf-8-validate": "^5.0.4"
   }
 }

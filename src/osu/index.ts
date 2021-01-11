@@ -11,7 +11,6 @@ const logger = new Logger('OSU')
 
   try {
     const client = new bancho.BanchoClient({
-      apiKey: config.osu.apiKey,
       username: config.osu.username,
       password: config.osu.ircpass,
     })
