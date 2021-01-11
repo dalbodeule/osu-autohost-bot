@@ -1,10 +1,12 @@
 import Logger from '../logger'
 import config from '../config'
 import bancho from 'bancho.js'
+import formattedCommandList from './command'
+import { CommandExecutorRole, CommandWhereExecutied } from './lib/Command'
 
-const logger = new Logger('OSU');
+const logger = new Logger('OSU')
 
-(async() => {
+;(async () => {
   logger.info('process start!')
 
   try {
@@ -17,8 +19,24 @@ const logger = new Logger('OSU');
     await client.connect()
     logger.info(`connect success! - ${client.getSelf().ircUsername}`)
 
-    client.on('PM', msg => {
+    client.on('PM', async (msg) => {
       logger.info(`${msg.user.ircUsername} - ${msg.message}`)
+
+      const splittedMsg = msg.message.split(' ')
+
+      if (
+        msg.message.startsWith(config.commandPrefix) &&
+        formattedCommandList.get(splittedMsg[0].toLowerCase())
+      ) {
+        await formattedCommandList
+          .get(splittedMsg[0])
+          ?.commandHandler(
+            msg.user,
+            splittedMsg,
+            CommandWhereExecutied.DM,
+            CommandExecutorRole.NORMAL
+          )
+      }
     })
 
     setInterval(() => {
@@ -29,3 +47,5 @@ const logger = new Logger('OSU');
     logger.debug(error)
   }
 })()
+
+export { logger }
