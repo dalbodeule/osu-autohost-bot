@@ -4,7 +4,9 @@ import * as path from 'path'
 
 interface IConfig {
   readonly osu: {
-    readonly apiKey: string
+    readonly apiKey: string,
+    readonly username: string,
+    readonly ircpass: string
   },
   readonly discord: {
     readonly apiKey: string,
@@ -26,7 +28,9 @@ try {
 
 const Config: IConfig = {
   osu: {
-    apiKey: process.env.OSU_APIKEY || ""
+    apiKey: process.env.OSU_APIKEY || "",
+    username: process.env.OSU_USERNAME || "",
+    ircpass: process.env.OSU_IRCPASS || ""
   },
   discord: {
     apiKey: process.env.DISCORD_APIKEY || "",
