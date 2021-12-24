@@ -1,4 +1,4 @@
-import * as log4js from "log4js"
+import * as log4js from 'log4js'
 
 class Logger {
   private logger: log4js.Logger
@@ -8,26 +8,26 @@ class Logger {
     this.logger = log4js.getLogger(processName)
     this.process = processName
 
-    if (process.env.NODE_ENV == "production") {
-      this.logger.level = "INFO"
+    if (process.env.NODE_ENV == 'production') {
+      this.logger.level = 'INFO'
     } else {
-      this.logger.level = "DEBUG"
+      this.logger.level = 'DEBUG'
     }
   }
 
-  public info(message: string): void {
+  public info(message: unknown): void {
     this.logger.info(message)
   }
 
-  public debug(message: string): void {
+  public debug(message: unknown): void {
     this.logger.debug(message)
   }
 
-  public warn(message:string): void {
+  public warn(message: unknown): void {
     this.logger.warn(message)
   }
 
-  public fatal(message:string): void {
+  public fatal(message: unknown): void {
     this.logger.fatal(message)
   }
 }

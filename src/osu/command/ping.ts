@@ -5,17 +5,18 @@ import Command, {
   CommandWhereExecutied,
 } from '../lib/Command'
 
-export default class Ping extends Command {
+export default class PingCommand extends Command {
   public name = 'Ping'
   public arg = ''
   public description = 'Ping commands.'
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async commandHandler(
     user: BanchoUser,
     args: string[],
     where: CommandWhereExecutied,
     role: CommandExecutorRole
   ): Promise<void> {
-    user.sendMessage('!pong')
+    void user.sendMessage('!pong')
   }
 }
