@@ -1,17 +1,19 @@
 import Logger from '../logger'
 import config from '../config'
-import discord from 'discord.js'
+import discord, { Intents } from 'discord.js'
 
 import formattedCommandList from './command'
 
 const logger = new Logger('DISCORD')
 
-;(async () => {
+void (async () => {
   logger.info('process start!')
 
-  const client = new discord.Client()
+  const client = new discord.Client({
+    intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
+  })
 
-  client.on('message', async (msg) => {
+  client.on('messageCreate', async (msg) => {
     if (!msg.author.bot && msg.channel.id == config.discord.commandId) {
       logger.info(`${msg.author.username} - ${msg.content}`)
 
@@ -29,5 +31,5 @@ const logger = new Logger('DISCORD')
   })
 
   await client.login(config.discord.apiKey)
-  logger.info(`connect success! - ${client.user?.username}`)
+  logger.info(`connect success! - ${client.user?.username || ''}`)
 })()

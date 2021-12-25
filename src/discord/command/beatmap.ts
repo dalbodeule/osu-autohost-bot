@@ -2,12 +2,13 @@ import { Message, MessageEmbed, User } from 'discord.js'
 import { Beatmap } from 'nodesu'
 import nodesu from '../../lib/nodesu'
 import Command from '../lib/Command'
+import * as ENUM from '../../osu/lib/enum'
 
 export default class BeatmapCommand extends Command {
   public name = 'beatmap'
   public description = 'Search beatmap with beatmap id'
 
-  private RegEx = /^(?:https:\/\/osu.ppy.sh\/b(?:eatmapsets\/.+)?\/)?(\d+)$/
+  private RegExp = /^(?:https:\/\/osu.ppy.sh\/b(?:eatmapsets\/.+)?\/)?(\d+)$/
 
   public async commandHandler(
     msg: Message,
@@ -15,7 +16,7 @@ export default class BeatmapCommand extends Command {
     args: string[]
   ): Promise<void> {
     if (args.length > 0) {
-      const beatmapId = args[1].match(this.RegEx)
+      const beatmapId = this.RegExp.exec(args[1])
 
       if (beatmapId && beatmapId[1]) {
         const result = (await nodesu.beatmaps.getByBeatmapId(
@@ -27,6 +28,9 @@ export default class BeatmapCommand extends Command {
             .setColor('#dc98a4')
             .setTitle(`${result[0].title} - ${result[0].artist}`)
             .setURL(`https://osu.ppy.sh/b/${result[0].id}`)
+            .setImage(
+              `https://assets.ppy.sh/beatmaps/${result[0].beatmapSetId}/covers/cover.jpg`
+            )
             .addFields([
               {
                 name: 'diff',
@@ -38,18 +42,32 @@ export default class BeatmapCommand extends Command {
                 name: 'creator',
                 value: result[0].creator,
               },
+              {
+                name: 'mode',
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                value: ENUM.Mode[result[0].mode || 0],
+              },
+              {
+                name: 'Max Combo',
+                value: `${result[0].maxCombo} Combo`,
+              },
             ])
             .setTimestamp()
+            .setFooter('osu.ppy.sh')
 
-          msg.channel.send(beatmapEmbed)
+          void msg.channel.send({ embeds: [beatmapEmbed] })
         } else {
-          msg.channel.send(`map not found! ${user}`)
+          void msg.channel.send(`map not found! ${user.toString()}`)
         }
       } else {
-        msg.channel.send(`${args[1]} is not beatmap id or url! ${user}`)
+        void msg.channel.send(
+          `${args[1]} is not beatmap id or url! ${user.toString()}`
+        )
       }
     } else {
-      msg.channel.send(`<arg1: beatmap id/url> is null. ${user}`)
+      void msg.channel.send(
+        `<arg1: beatmap id/url> is null. ${user.toString()}`
+      )
     }
   }
 }
