@@ -9,6 +9,7 @@ import Exit from './exit'
 import CloseID from './closeID'
 import Close from './close'
 import Mode from './mode_command'
+import Keys from './keys'
 
 const commandList: Command[] = [
   new ping(),
@@ -19,6 +20,7 @@ const commandList: Command[] = [
   new CloseID(),
   new Close(),
   new Mode(),
+  new Keys(),
 ]
 
 const formattedCommandList: Map<string, Command> = new Map()

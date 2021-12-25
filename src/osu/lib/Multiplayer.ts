@@ -6,12 +6,14 @@ import {
   BanchoMultiplayerChannel,
   BanchoUser,
 } from 'bancho.js'
-import nodesu, { Beatmap, ModeType } from 'nodesu'
+import nodesu, { Beatmap } from 'nodesu'
+import nodesuClient from '../../lib/nodesu'
 import { client, logger } from '..'
 import config from '../../config'
 import formattedCommandList from '../command'
 import * as ENUM from '../lib/enum'
 import { CommandExecutorRole, CommandWhereExecutied } from './Command'
+import wait from './wait'
 
 export default class Multiplayer {
   private multiplayerChannel: BanchoMultiplayerChannel
@@ -35,6 +37,7 @@ export default class Multiplayer {
   public password?: string
   public master?: BanchoUser
   public keys: number
+  public freemod: boolean
 
   constructor(
     client: BanchoClient,
@@ -66,6 +69,8 @@ export default class Multiplayer {
     this.mode = ENUM.Mode.OSU
     this.keys = 7
 
+    this.freemod = false
+
     if (password) {
       void this.setPassword(password)
       this.isPassword = true
@@ -91,9 +96,18 @@ export default class Multiplayer {
     this.lobby.on('matchAborted', matchFinished)
 
     // song status
-    this.lobby.on('beatmap', (beatmap) => {
-      this.beatmap = beatmap
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    this.lobby.on('beatmap', async (beatmap) => {
+      await wait(0.5)
+      const beatmap_searched = await nodesuClient.beatmaps.getByBeatmapId(
+        this.lobby.beatmapId
+      )
+
+      this.beatmap = beatmap_searched[0] as nodesu.Beatmap
       this.mode = beatmap.mode || ENUM.Mode.OSU
+      void this.sendMessage(`current mode is ${ENUM.Mode[beatmap.mode || 0]}`)
+
+      return
     })
     this.lobby.on('invalidBeatmapId', () => (this.beatmap = undefined))
     this.lobby.on('mods', (mods) => {
@@ -169,7 +183,7 @@ export default class Multiplayer {
   }
 
   public async invite(user: BanchoUser): Promise<void> {
-    await this.lobby.invitePlayer(`#${user.id}`)
+    await this.sendMessage(`!mp invite ${user.username || user.ircUsername}`)
   }
 
   public async close(): Promise<void> {
@@ -222,6 +236,27 @@ export default class Multiplayer {
 
   public set setKeys(key: number) {
     this.keys = Math.max(1, Math.min(9, Math.round(key)))
+  }
+
+  public set setMods(mods: BanchoMod[]) {
+    this.mods = mods
+  }
+
+  public addMods(mods: BanchoMod[]): void {
+    this.mods = this.mods.concat(mods)
+    void this.applyMods()
+  }
+
+  public removeMods(mods: BanchoMod[]): boolean {
+    mods.forEach((value) => {
+      this.mods.splice(this.mods.indexOf(value), 1)
+    })
+    void this.applyMods()
+    return true
+  }
+
+  private async applyMods(): Promise<void> {
+    await this.lobby.setMods(this.mods, this.freemod)
   }
 }
 

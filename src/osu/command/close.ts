@@ -27,8 +27,7 @@ export default class CloseCommand extends Command {
     try {
       if (!room.master || user.id == room.master?.id) {
         await room.sendMessage('room close within 5 secs')
-        await wait(3)
-        void room.close()
+        await room.close()
       } else {
         await room.sendMessage(
           `${user.username || user.ircUsername} is not room master`

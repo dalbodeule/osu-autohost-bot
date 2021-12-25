@@ -23,9 +23,9 @@ export default class NewRoomCommand extends Command {
 
       const lobby = new Multiplayer(client, newLobby, user, args[2])
 
-      logger.info(`room ${newLobby.name} is created.`)
+      logger.info(`room ${args[1]} is created.`)
       await Promise.all([
-        user.sendMessage(`room ${newLobby.name} is created.`),
+        user.sendMessage(`room ${args[1]} is created.`),
         lobby.invite(user),
       ])
 
