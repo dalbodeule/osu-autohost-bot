@@ -53,7 +53,9 @@ export default class BeatmapCommand extends Command {
               },
             ])
             .setTimestamp()
-            .setFooter('osu.ppy.sh')
+            .setFooter({
+              text: 'osu.ppy.sh',
+            })
 
           void msg.channel.send({ embeds: [beatmapEmbed] })
         } else {
