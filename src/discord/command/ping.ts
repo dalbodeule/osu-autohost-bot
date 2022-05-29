@@ -11,6 +11,6 @@ export default class Ping extends Command {
     user: User,
     args: string[]
   ): Promise<void> {
-    msg.reply(`pong!`)
+    await msg.reply(`pong!`)
   }
 }
