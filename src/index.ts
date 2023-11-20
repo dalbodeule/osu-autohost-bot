@@ -3,6 +3,8 @@ import Logger from './logger'
 
 import config from './config'
 import commands from './commands'
+import { healthCheck } from './health'
+import startOsuBot from './osu'
 
 const logger = new Logger('Discord')
 
@@ -36,4 +38,6 @@ const startBot = async () => {
   })
 }
 
+healthCheck.listen(8080)
 startBot()
+startOsuBot()
