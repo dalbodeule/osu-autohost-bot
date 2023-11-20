@@ -1,4 +1,4 @@
-import * as log4js from 'log4js'
+import log4js from 'log4js'
 
 class Logger {
   private logger: log4js.Logger

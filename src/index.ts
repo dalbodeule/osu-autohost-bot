@@ -1,8 +1,39 @@
+import { Client, IntentsBitField, Interaction } from 'discord.js'
 import Logger from './logger'
+
 import config from './config'
+import commands from './commands'
 
-const logger = new Logger('Main');
+const logger = new Logger('Discord')
 
-(async() => {
-  
-})()
+const client = new Client({
+  intents: [IntentsBitField.Flags.Guilds, IntentsBitField.Flags.GuildMessages],
+})
+
+const startBot = async () => {
+  await client.login(config.discord.apiKey)
+  logger.info(`login success! ${client.user?.displayName || 'bot'}`)
+
+  client.on('ready', async () => {
+    if (client.application) {
+      await client.application.commands.set(commands)
+      logger.info('command registered!')
+    }
+  })
+
+  client.on('interactionCreate', async (interaction: Interaction) => {
+    if (interaction.isCommand()) {
+      const currentCommand = commands.find(
+        ({ name }) => name === interaction.commandName
+      )
+
+      if (currentCommand) {
+        await interaction.deferReply()
+        currentCommand.execute(client, interaction)
+        logger.info(`command ${currentCommand.name} handled.`)
+      }
+    }
+  })
+}
+
+startBot()

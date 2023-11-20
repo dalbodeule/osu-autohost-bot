@@ -1,19 +1,26 @@
 {
+  "editor.formatOnSave": true,
+  "javascript.format.semicolons": "remove",
+  "[typescript]": {
     "editor.formatOnSave": true,
-    "javascript.format.semicolons": "remove",
-    "[typescript]": {
-        "editor.formatOnSave": true,
-        "editor.formatOnPaste": true,
-        "editor.tabSize": 2,
+    "editor.formatOnPaste": true,
+    "editor.tabSize": 2
+  },
+  "[json]": {
+    "editor.quickSuggestions": {
+      "strings": true
     },
-    "[json]": {
-        "editor.quickSuggestions": {
-            "strings": true
-        },
-        "editor.suggest.insertMode": "replace",
-        "editor.tabSize": 2
-    },
-    "[env]": {
-        "editor.tabSize": 2
-    }
+    "editor.suggest.insertMode": "replace",
+    "editor.tabSize": 2
+  },
+  "[env]": {
+    "editor.tabSize": 2
+  },
+  "search.exclude": {
+    "**/.yarn": true,
+    "**/.pnp.*": true
+  },
+  "prettier.prettierPath": ".yarn/sdks/prettier/index.cjs",
+  "typescript.tsdk": ".yarn/sdks/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true
 }

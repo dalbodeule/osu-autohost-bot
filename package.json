@@ -1,10 +1,12 @@
 {
   "name": "osu-autohost-bot",
+  "private": true,
   "version": "1.0.0",
   "description": "osu autohost bot written by Node.js",
   "main": "./dist",
   "scripts": {
-    "test": "ts-node ./src"
+    "test": "ts-node ./src/index.ts",
+    "build": "node esbuild.config.js"
   },
   "repository": {
     "type": "git",
@@ -17,25 +19,27 @@
   },
   "homepage": "https://github.com/dalbodeule/osu-autohost-bot#readme",
   "devDependencies": {
-    "@types/dotenv": "^8.2.0",
+    "@types/eslint": "^8",
     "@types/log4js": "^2.3.5",
-    "@types/node": "^14.17.14",
-    "@typescript-eslint/eslint-plugin": "^4.30.0",
-    "@typescript-eslint/parser": "^4.32.0",
-    "eslint": "^7.32.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "prettier": "^2.3.2",
-    "ts-node": "^10.8.0",
-    "typescript": "^4.4.2"
+    "@types/node": "^20.9.2",
+    "@typescript-eslint/eslint-plugin": "^6.4.0",
+    "@yarnpkg/esbuild-plugin-pnp": "^3.0.0-rc.15",
+    "esbuild": "^0.19.6",
+    "eslint": "^8.0.1",
+    "eslint-config-standard-with-typescript": "^40.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
+    "eslint-plugin-promise": "^6.0.0",
+    "prettier": "^3.1.0",
+    "ts-node": "^10.9.1",
+    "typescript": "*"
   },
   "dependencies": {
-    "bancho.js": "^0.9.7",
-    "bufferutil": "^4.0.3",
-    "discord.js": "^13.4.0",
-    "dotenv": "^8.2.0",
-    "log4js": "^6.3.0",
-    "nodesu": "^0.7.2",
-    "utf-8-validate": "^5.0.4"
-  }
+    "bancho.js": "^0.11.5",
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.3.1",
+    "log4js": "^6.9.1",
+    "nodesu": "^0.7.3"
+  },
+  "packageManager": "yarn@4.0.2"
 }
